@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        style="@style/zjy_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_title_height"
+        android:text="书架"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/main_shujia_btn_add"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="+"
+            android:textSize="22sp"/>
+
+        <GridView
+            android:id="@+id/main_shujia_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </GridView>
+
+    </RelativeLayout>
+
+</LinearLayout>
