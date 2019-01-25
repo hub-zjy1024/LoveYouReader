@@ -1,12 +1,14 @@
 package reader.loveyou.zjy.b1b.p.loveyoureader.contact;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import reader.loveyou.zjy.b1b.p.loveyoureader.entity.PageInfo;
 import reader.loveyou.zjy.b1b.p.loveyoureader.utils.TaskExecutor;
 import reader.loveyou.zjy.b1b.p.loveyoureader.utils.TxtReader;
 
@@ -22,7 +24,9 @@ public class BookReadContact {
 
         void readBefore(String content);
 
-        void readFinish();
+        void preReadedPages(List<PageInfo> mpages);
+
+        void readFinish(List<PageInfo> mdatas);
 
     }
 
@@ -60,18 +64,33 @@ public class BookReadContact {
             Runnable run = new Runnable() {
                 @Override
                 public void run() {
-                    reader.read(txtFilePath, new TxtReader.ReadListenter() {
+                    long time1 = System.currentTimeMillis();
+                    final List<PageInfo> mdatas = reader.read2(txtFilePath, new TxtReader.ReadListenter() {
+
+
                         @Override
-                        public void readAt(int position, final String beforeTxt) {
+                        public void readAt(int position, String beforeTxt) {
+                            CView.readBefore(beforeTxt);
+                        }
+
+                        @Override
+                        public void postPrePages(final List<PageInfo> pages) {
                             mhandelr.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    CView.readBefore(beforeTxt);
+                                    CView.preReadedPages(pages);
                                 }
                             });
                         }
                     });
-                    CView.readFinish();
+                    mhandelr.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            CView.readFinish(mdatas);
+                        }
+                    });
+                    Log.e("zjy", "BookReadContact->run(): TotalTimeRead==" + txtFilePath + "\ttime=" + (System
+                            .currentTimeMillis() - time1) / 1000f);
                 }
             };
             mExecutor.executeTask(run);

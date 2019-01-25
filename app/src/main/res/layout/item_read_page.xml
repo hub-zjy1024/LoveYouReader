@@ -37,5 +37,7 @@
         android:id="@+id/item_read_content"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_below="@id/item_read_title"
+        android:textSize="20sp"
         android:layout_above="@id/item_read_bottombar"/>
 </RelativeLayout>
